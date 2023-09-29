@@ -41,7 +41,13 @@ func ParseConfig(config interface{}) error {
 			if !field.IsValid() {
 				return fmt.Errorf("missing config field %s", fieldType.Name)
 			}
-			if field.IsZero() {
+
+			if field.Kind() == reflect.Ptr {
+				// If it's a pointer, dereference it.
+				if field.IsNil() {
+					return fmt.Errorf("config field %s requires a value", fieldType.Name)
+				}
+			} else if field.IsZero() {
 				return fmt.Errorf("config field %s requires a value", fieldType.Name)
 			}
 		}
