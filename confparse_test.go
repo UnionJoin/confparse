@@ -9,8 +9,9 @@ import (
 
 type Config struct {
 	Server struct {
-		Host string `yaml:"host" required:"true"`
-		Port int    `yaml:"port" required:"true"`
+		Host    string `yaml:"host" required:"true"`
+		Port    int    `yaml:"port" required:"true"`
+		Enabled bool   `yaml:"enabled" required:"true"`
 	} `yaml:"server" required:"true"`
 }
 
@@ -25,6 +26,7 @@ func TestParseCompleteConfig(t *testing.T) {
 server:
   host: localhost
   port: 43000
+  enabled: false
 `
 	cfg := &Config{}
 	err := yaml.Unmarshal([]byte(config), cfg)
